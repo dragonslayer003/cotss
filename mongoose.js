@@ -20,7 +20,6 @@ const playerSchema = new mongoose.Schema({
   playerID: {
     type: String,
     required: true,
-    unique: true,
   },
   playerTAG: {
     type: String,

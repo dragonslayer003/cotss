@@ -15,7 +15,7 @@ client.on("message", (message) => {
   message.content = message.content.toUpperCase();
   if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
-  if (!message.member.roles.cache.some((role) => role.name === "⚡️Leadership⚡️")) {
+  if (message.member.roles.cache.some((role) => role.name === "⚡️Leadership⚡️")) {
     message.channel.send("You do not have the permission to use this command!");
     return;
   }
@@ -26,7 +26,7 @@ client.on("message", (message) => {
     message.channel.send("**/strike CLAN_NAME** to show clan strike information.");
     message.channel.send("**/strike ALL** to show all clan strike information.");
     message.channel.send("**/strike show @USER** to show strike information for a user.");
-    message.channel.send("**/strike add @USER {strike Number}** to add strikes for a user.");
+    message.channel.send("**/strike add #Player_TAG {strike Number}** to add strikes for a Player.");
     message.channel.send("**/strike link @USER #Player_TAG** to link a new user with their clan ID.");
     message.channel.send(
       "``` 1 -> Left the clan (0.5 strike)\n 2 -> Failed to respond (0.5 strike)\n 3 -> Wrong attack (0.5 strike)\n 4 -> Missed war attack (1 strike)\n 5 -> Missed CWL Attack (1 strike)\n 6 -> Failed CG points(1 strike)\n 7 -> Heros down in war (1 strike)\n 8 -> Failed war plan (1 strike)\n 9 -> War no show (2 strikes)\n10 -> Changed war plan (3 strikes)\n11 -> Toxic (4 strikes)\n12 -> Camping (4 strikes)\n```"
@@ -55,12 +55,12 @@ client.on("message", (message) => {
     }
 
     var { strikes, strikeCount } = strikeCalc(strike);
-    var users = message.mentions.users;
+    var users = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
     if (users.size < 1) {
-      return message.channel.send("Please enter atleaset one user.");
+      return message.channel.send("Please enter atleaset one user with player TAG.");
     }
     users.map((user) => {
-      Player.findOne({ playerID: user.id }, (err, player) => {
+      Player.findOne({ playerTAG: user }, (err, player) => {
         if (err) {
           message.channel.send("Error: ", err);
         }
@@ -73,15 +73,14 @@ client.on("message", (message) => {
 
           message.channel.send(
             "<@" +
-              user +
+              player.playerID +
               ">" +
               " has been issued a new strike. If you wish to appeal, create a War Conflict or Appeals Ticket in <#780881554238865538>."
           );
-          var msg = `${user.username} has ${player.strikeCount} strikes.`;
-          message.channel.send("```" + msg + "\nReasons for strikes:\n" + player.strikes + "```");
-          message.channel.send();
+          var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
+          message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
           if (player.strikeCount >= 4) {
-            message.channel.send(`${user} has more than 4 strikes.`);
+            message.channel.send(`${player.playerID} has more than 4 strikes.`);
           }
         }
       });
@@ -93,18 +92,20 @@ client.on("message", (message) => {
     }
 
     users.map((user) => {
-      Player.findOne({ playerID: user.id }, (err, player) => {
+      Player.find({ playerID: user.id }, (err, players) => {
         if (err) {
           message.channel.send("Error: ", err);
         }
-        if (!player) {
+        if (players.length == 0) {
           message.channel.send("Error: Player not found!");
         } else {
-          if (player.strikeCount === 0) {
-            message.channel.send("Player has no strike");
-          } else {
-            var msg = `${user.username} has ${player.strikeCount} strikes.`;
-            message.channel.send("```" + msg + "\nReasons for strikes:\n" + player.strikes + "```");
+          for (var player of players) {
+            if (player.strikeCount === 0) {
+              message.channel.send("```" + player.playerTAG + " has no strike```");
+            } else {
+              var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
+              message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
+            }
           }
         }
       });
