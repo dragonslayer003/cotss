@@ -1,0 +1,19 @@
+{
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "clash-of-clans-api": "^0.6.4",
+    "discord.js": "^12.5.1",
+    "mongoose": "^5.12.1",
+    "nodemon": "^2.0.7"
+  }
+}
