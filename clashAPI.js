@@ -17,12 +17,12 @@ function byClanTag(tag, callback) {
             callback("Error: ", err);
           }
           if (!player) {
-            reply = reply + member.name + ": " + "No strike information.\n";
+            reply = reply + member.name + " -- " + member.tag + " -- " + "Not linked\n";
           } else {
             if (player.strikeCount === 0) {
-              reply = reply + member.name + ": No Strikes.\n";
+              reply = reply + member.name + " -- No Strikes.\n";
             } else {
-              reply = reply + member.name + ": " + player.strikeCount + " Strikes.\n";
+              reply = reply + member.name + " -- " + player.strikeCount + " Strikes.\n";
             }
           }
         });

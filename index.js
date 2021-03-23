@@ -15,7 +15,7 @@ client.on("message", (message) => {
   message.content = message.content.toUpperCase();
   if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
-  if (message.member.roles.cache.some((role) => role.name === "⚡️Leadership⚡️")) {
+  if (!message.member.roles.cache.some((role) => role.name === "⚡️Leadership⚡️")) {
     message.channel.send("You do not have the permission to use this command!");
     return;
   }
@@ -32,22 +32,24 @@ client.on("message", (message) => {
       "``` 1 -> Left the clan (0.5 strike)\n 2 -> Failed to respond (0.5 strike)\n 3 -> Wrong attack (0.5 strike)\n 4 -> Missed war attack (1 strike)\n 5 -> Missed CWL Attack (1 strike)\n 6 -> Failed CG points(1 strike)\n 7 -> Heros down in war (1 strike)\n 8 -> Failed war plan (1 strike)\n 9 -> War no show (2 strikes)\n10 -> Changed war plan (3 strikes)\n11 -> Toxic (4 strikes)\n12 -> Camping (4 strikes)\n```"
     );
   } else if (leftOverMessage.startsWith("LINK")) {
-    var playerTAG = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+    var playerTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
     var users = message.mentions.users;
     if (users.size != 1) {
       return message.channel.send("Please enter only one user.");
     }
-    if (playerTAG.length != 1) {
+    if (playerTAGs.length < 1) {
       return message.channel.send("Please enter correct Player TAG.");
     }
-    users.forEach((user) => {
-      Player.create({ playerID: user.id, playerTAG: playerTAG[0] }, (err) => {
+
+    var userID = users.toJSON()[0].id;
+    for (var TAG of playerTAGs) {
+      Player.create({ playerID: userID, playerTAG: TAG }, (err, player) => {
         if (err) {
-          return message.channel.send("Error creating link: ", err);
+          return message.channel.send("Error creating link for " + player.playerTAG);
         }
-        return message.channel.send("Link created!");
+        return message.channel.send("Link created for " + player.playerTAG);
       });
-    });
+    }
   } else if (leftOverMessage.startsWith("ADD")) {
     var strike = leftOverMessage.split(" ").filter((arg) => parseFloat(arg))[0];
     if (!strike || strike < 1 || strike > 12) {
@@ -55,12 +57,12 @@ client.on("message", (message) => {
     }
 
     var { strikes, strikeCount } = strikeCalc(strike);
-    var users = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
-    if (users.size < 1) {
+    var usersTAG = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+    if (usersTAG.size < 1) {
       return message.channel.send("Please enter atleaset one user with player TAG.");
     }
-    users.map((user) => {
-      Player.findOne({ playerTAG: user }, (err, player) => {
+    usersTAG.map((userTAG) => {
+      Player.findOne({ playerTAG: userTAG }, (err, player) => {
         if (err) {
           message.channel.send("Error: ", err);
         }
