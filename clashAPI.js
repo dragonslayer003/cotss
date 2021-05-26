@@ -3,6 +3,9 @@ import Player from "./mongoose.js";
 
 let clashApiClient = clashApi({
   token: process.env.clashApiToken,
+  request: {
+    proxy: process.env.ip_address,
+  },
 });
 
 function byClanTag(tag, callback) {
