@@ -31,7 +31,7 @@ function byClanTag(tag, callback) {
       }
       callback("```" + response.name + " :   \n\n" + reply + "```");
     })
-    .catch(() => callback("Error: Something went wrong while getting data!"));
+    .catch((error) => callback("Error: Something went wrong while getting data!" + error));
 }
 
 export { byClanTag };
