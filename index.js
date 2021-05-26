@@ -1,6 +1,5 @@
 import { Client } from "discord.js";
 import { byClanTag } from "./clashAPI.js";
-import config from "./config.js";
 import messageDecorder from "./messageDecoder.js";
 import Player from "./mongoose.js";
 import strikeCalc from "./strikeCalc.js";
@@ -13,23 +12,21 @@ client.once("ready", () => {
 
 client.on("message", (message) => {
   message.content = message.content.toUpperCase();
-  if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+  if (!message.content.startsWith(process.env.prefix) || message.author.bot) return;
 
   if (!message.member.roles.cache.some((role) => role.name === "⚡️Leadership⚡️")) {
     message.channel.send("You do not have the permission to use this command!");
     return;
   }
 
-  var leftOverMessage = message.content.substr(8);
+  var leftOverMessage = message.content.substr(1);
 
   if (leftOverMessage.startsWith("HELP")) {
-    message.channel.send("**/strike CLAN_NAME** to show clan strike information.");
-    message.channel.send("**/strike ALL** to show all clan strike information.");
-    message.channel.send("**/strike show @USER** to show strike information for a user.");
-    message.channel.send("**/strike add #Player_TAG {strike Number}** to add strikes for a Player.");
-    message.channel.send("**/strike link @USER #Player_TAG** to link a new user with their clan ID.");
     message.channel.send(
-      "``` 1 -> Left the clan (0.5 strike)\n 2 -> Failed to respond (0.5 strike)\n 3 -> Wrong attack (0.5 strike)\n 4 -> Missed war attack (1 strike)\n 5 -> Missed CWL Attack (1 strike)\n 6 -> Failed CG points(1 strike)\n 7 -> Heros down in war (1 strike)\n 8 -> Failed war plan (1 strike)\n 9 -> War no show (2 strikes)\n10 -> Changed war plan (3 strikes)\n11 -> Toxic (4 strikes)\n12 -> Camping (4 strikes)\n```"
+      "```:{CLAN_NAME} -> show clan strike information.\n:all -> show all clan strike information.\n:show {@USERs} -> show strike information for a user.\n:add {#PLAYER_TAGS} {strike Number} -> add strikes for a Player.\n:link {@USER} {#PLAYER_TAG} -> link a new user with their clan ID.\n:delete {@USER} -> delete all links of a player.\n:delete {#PLAYER_TAGS} -> delete provided player TAGs.\n```"
+    );
+    message.channel.send(
+      "```Strike Number: \n\n 1 -> Left the clan (0.5 strike)\n 2 -> Failed to respond (0.5 strike)\n 3 -> Wrong attack (0.5 strike)\n 4 -> Missed war attack (1 strike)\n 5 -> Missed CWL Attack (1 strike)\n 6 -> Failed CG points(1 strike)\n 7 -> Heros down in war (1 strike)\n 8 -> Failed war plan (1 strike)\n 9 -> War no show (2 strikes)\n10 -> Changed war plan (3 strikes)\n11 -> Toxic (4 strikes)\n12 -> Camping (4 strikes)\n```"
     );
   } else if (leftOverMessage.startsWith("LINK")) {
     var playerTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
@@ -45,9 +42,33 @@ client.on("message", (message) => {
     for (var TAG of playerTAGs) {
       Player.create({ playerID: userID, playerTAG: TAG }, (err, player) => {
         if (err) {
-          return message.channel.send("Error creating link for " + player.playerTAG);
+          return message.channel.send("Error creating link for " + TAG);
         }
         return message.channel.send("Link created for " + player.playerTAG);
+      });
+    }
+  } else if (leftOverMessage.startsWith("DELETE")) {
+    var playerTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+    var users = message.mentions.users;
+
+    if (users.size != 1 && playerTAGs.length < 1) {
+      return message.channel.send("Please enter either an user or player TAGs");
+    }
+
+    if (users.size == 1) {
+      var userID = users.toJSON()[0].id;
+      Player.deleteMany({ playerID: userID }, (err) => {
+        if (err) {
+          return message.channel.send("Error deleting the player Tags");
+        }
+        return message.channel.send("Player deleted!");
+      });
+    } else {
+      Player.deleteMany({ playerTAG: playerTAGs }, (err) => {
+        if (err) {
+          return message.channel.send("Error deleting the player Tags");
+        }
+        return message.channel.send("Player deleted!");
       });
     }
   } else if (leftOverMessage.startsWith("ADD")) {
@@ -118,7 +139,7 @@ client.on("message", (message) => {
     }
 
     const filter = (m) => m.content.includes("CONFIRM RESET") && m.author.id === "644005027052126208";
-    const collector = message.channel.createMessageCollector(filter, { time: 15000 });
+    const collector = message.channel.createMessageCollector(filter, { time: 25000 });
     message.channel.send("Are you sure? Reply with **CONFIRM RESET**");
     var result = false;
     collector.on("collect", () => {
@@ -154,4 +175,4 @@ client.on("message", (message) => {
   }
 });
 
-client.login(config.clientKey);
+client.login(process.env.clientKey);
