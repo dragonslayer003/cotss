@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-
-mongoose.connect("mongodb://localhost/user_DB", {
+var link = "mongodb+srv://COC:cocPassword@cluster0.h55gv.mongodb.net/user_DB?retryWrites=true&w=majority"
+mongoose.connect(link, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
@@ -13,7 +13,7 @@ db.on("error", (err) => {
 });
 
 db.once("open", () => {
-  console.log("Connected to Post Database");
+  console.log("Connected to User Database");
 });
 
 const playerSchema = new mongoose.Schema({
