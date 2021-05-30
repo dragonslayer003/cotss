@@ -1,8 +1,11 @@
 import clashApi from "clash-of-clans-api";
 import Player from "./mongoose.js";
+import getToken from "./clashAPILogin";
+
+const token = await getToken();
 
 let clashApiClient = clashApi({
-  token: process.env.clashApiToken,
+  token: token,
 });
 
 function byClanTag(tag, callback) {
@@ -28,7 +31,7 @@ function byClanTag(tag, callback) {
       }
       callback("```" + response.name + " :   \n\n" + reply + "```");
     })
-    .catch((error) => callback("Error: Something went wrong while getting data!" + error));
+    .catch(() => callback("Error: Something went wrong while getting data!"));
 }
 
 export { byClanTag };
