@@ -41,7 +41,7 @@ async function getToken() {
     cidrRanges: [IP],
   });
 
-  return key.key;
+  return key.key.key;
 }
 
 export default getToken;
