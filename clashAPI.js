@@ -1,6 +1,6 @@
 import clashApi from "clash-of-clans-api";
 import Player from "./mongoose.js";
-import getToken from "./clashAPILogin";
+import getToken from "./clashAPILogin.js";
 
 const token = await getToken();
 
