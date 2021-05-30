@@ -44,4 +44,4 @@ async function getToken() {
   return key;
 }
 
-export default getToken();
+export default getToken;
