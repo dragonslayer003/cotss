@@ -55,6 +55,7 @@ function messageDecorder(message) {
       tag = CLAN_TAGS.DAND;
       break;
 
+    case "COTA":
     case "COT_A":
     case "ASSASINS":
     case "COT ASSASSINS":
