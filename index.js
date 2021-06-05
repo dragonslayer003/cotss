@@ -13,7 +13,9 @@ client.once("ready", () => {
 client.on("message", (message) => {
   message.content = message.content.toUpperCase();
   if (!message.content.startsWith(process.env.prefix) || message.author.bot) return;
-
+  
+  console.log("[Roles]", message.member.roles.cache);
+  
   if (!message.member.roles.cache.some((role) => role.name === "⚡️Leadership⚡️")) {
     message.channel.send("You do not have the permission to use this command!");
     return;
