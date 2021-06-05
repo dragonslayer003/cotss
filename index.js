@@ -12,11 +12,22 @@ client.once("ready", () => {
 
 client.on("message", (message) => {
   message.content = message.content.toUpperCase();
-  if (!message.content.startsWith(process.env.prefix) || message.author.bot) return;
-  
+  if (!message.content.startsWith(process.env.prefix) || message.author.bot)
+    return;
+
   console.log("[Roles]", message.member.roles.cache);
-  
-  if (!message.member.roles.cache.some((role) => role.name === "⚡️Leadership⚡️")) {
+
+  if (
+    !message.member.roles.cache.some(
+      (role) =>
+        role.name === "⚡️Leadership⚡️" ||
+        role.name === "🐺CoT Wildling War General🐺" ||
+        role.name === "⚔️CoT War General⚔️" ||
+        role.name === "😎SC War General😎" ||
+        role.name === "🌼Dandelion War General🌼" ||
+        role.name === "🛠Black id War General🛠"
+    )
+  ) {
     message.channel.send("You do not have the permission to use this command!");
     return;
   }
@@ -31,7 +42,9 @@ client.on("message", (message) => {
       "```Strike Number: \n\n 1 -> Left the clan (0.5 strike)\n 2 -> Failed to respond (0.5 strike)\n 3 -> Wrong attack (0.5 strike)\n 4 -> Missed war attack (1 strike)\n 5 -> Missed CWL Attack (1 strike)\n 6 -> Failed CG points(1 strike)\n 7 -> Heros down in war (1 strike)\n 8 -> Failed war plan (1 strike)\n 9 -> War no show (2 strikes)\n10 -> Changed war plan (3 strikes)\n11 -> Toxic (4 strikes)\n12 -> Camping (4 strikes)\n```"
     );
   } else if (leftOverMessage.startsWith("LINK")) {
-    var playerTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+    var playerTAGs = leftOverMessage
+      .split(" ")
+      .filter((arg) => arg.startsWith("#"));
     var users = message.mentions.users;
     if (users.size != 1) {
       return message.channel.send("Please enter only one user.");
@@ -50,7 +63,9 @@ client.on("message", (message) => {
       });
     }
   } else if (leftOverMessage.startsWith("DELETE")) {
-    var playerTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+    var playerTAGs = leftOverMessage
+      .split(" ")
+      .filter((arg) => arg.startsWith("#"));
     var users = message.mentions.users;
 
     if (users.size != 1 && playerTAGs.length < 1) {
@@ -76,13 +91,19 @@ client.on("message", (message) => {
   } else if (leftOverMessage.startsWith("ADD")) {
     var strike = leftOverMessage.split(" ").filter((arg) => parseFloat(arg))[0];
     if (!strike || strike < 1 || strike > 12) {
-      return message.channel.send("Invalid strike information! Refer strike help for more information.");
+      return message.channel.send(
+        "Invalid strike information! Refer strike help for more information."
+      );
     }
 
     var { strikes, strikeCount } = strikeCalc(strike);
-    var usersTAG = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+    var usersTAG = leftOverMessage
+      .split(" ")
+      .filter((arg) => arg.startsWith("#"));
     if (usersTAG.size < 1) {
-      return message.channel.send("Please enter atleaset one user with player TAG.");
+      return message.channel.send(
+        "Please enter atleaset one user with player TAG."
+      );
     }
     usersTAG.map((userTAG) => {
       Player.findOne({ playerTAG: userTAG }, (err, player) => {
@@ -103,7 +124,9 @@ client.on("message", (message) => {
               " has been issued a new strike. If you wish to appeal, create a War Conflict or Appeals Ticket in <#780881554238865538>."
           );
           var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
-          message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
+          message.channel.send(
+            "```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```"
+          );
           if (player.strikeCount >= 4) {
             message.channel.send(`${player.playerID} has more than 4 strikes.`);
           }
@@ -126,10 +149,18 @@ client.on("message", (message) => {
         } else {
           for (var player of players) {
             if (player.strikeCount === 0) {
-              message.channel.send("```" + player.playerTAG + " has no strike```");
+              message.channel.send(
+                "```" + player.playerTAG + " has no strike```"
+              );
             } else {
               var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
-              message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
+              message.channel.send(
+                "```" +
+                  msg +
+                  "\n\nReasons for strikes:\n" +
+                  player.strikes +
+                  "```"
+              );
             }
           }
         }
@@ -137,11 +168,17 @@ client.on("message", (message) => {
     });
   } else if (leftOverMessage.startsWith("RESET")) {
     if (message.author.id !== "644005027052126208") {
-      return message.channel.send("Only family leader has the permission to use this command!");
+      return message.channel.send(
+        "Only family leader has the permission to use this command!"
+      );
     }
 
-    const filter = (m) => m.content.includes("CONFIRM RESET") && m.author.id === "644005027052126208";
-    const collector = message.channel.createMessageCollector(filter, { time: 25000 });
+    const filter = (m) =>
+      m.content.includes("CONFIRM RESET") &&
+      m.author.id === "644005027052126208";
+    const collector = message.channel.createMessageCollector(filter, {
+      time: 25000,
+    });
     message.channel.send("Are you sure? Reply with **CONFIRM RESET**");
     var result = false;
     collector.on("collect", () => {
