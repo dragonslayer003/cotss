@@ -15,8 +15,6 @@ client.on("message", (message) => {
   if (!message.content.startsWith(process.env.prefix) || message.author.bot)
     return;
 
-  console.log("[Roles]", message.member.roles.cache);
-
   if (
     !message.member.roles.cache.some(
       (role) =>
