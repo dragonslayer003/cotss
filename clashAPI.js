@@ -12,6 +12,7 @@ function byClanTag(tag, callback) {
   clashApiClient
     .clanByTag(tag)
     .then(async (response) => {
+      console.log(`%c[response]`, "font-weight: bold; color: red", response);
       var reply = "";
       for (var member of response.memberList) {
         await Player.findOne({ playerTAG: member.tag }, (err, player) => {
