@@ -23,7 +23,9 @@ client.on("message", (message) => {
         role.name === "⚔️CoT War General⚔️" ||
         role.name === "😎SC War General😎" ||
         role.name === "🌼Dandelion War General🌼" ||
-        role.name === "🛠Black id War General🛠"
+        role.name === "🛠Black id War General🛠" ||
+        role.name === "🌊 Noah's Ark War General🌊" ||
+        role.name === "💥AlphaMax War General💥"
     )
   ) {
     message.channel.send("You do not have the permission to use this command!");
