@@ -115,7 +115,7 @@ client.on("message", (message) => {
           var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
           message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
           if (player.strikeCount >= 4) {
-            message.channel.send(`@⚡️Leadership⚡️ <@${player.playerID}> has more than 4 strikes.`);
+            message.channel.send(`<@⚡️Leadership⚡> <@${player.playerID}> has more than 4 strikes.`);
           }
         }
       });
