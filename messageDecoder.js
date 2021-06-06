@@ -69,7 +69,7 @@ function messageDecorder(message) {
       break;
 
     default:
-      tag = "Invalid command! Refer /strike help for information";
+      tag = "Invalid command! Refer :strike help for information";
       break;
   }
 
