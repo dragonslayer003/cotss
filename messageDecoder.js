@@ -7,6 +7,7 @@ var CLAN_TAGS = {
   DAND: "#PQL8JY8L",
   COT_A: "#2Y2QC082R",
   AM: "#YGLC2R9R",
+  F20: "#8CV0GPPR",
 };
 
 function messageDecorder(message) {
@@ -63,7 +64,7 @@ function messageDecorder(message) {
       whichFunction = 1;
       tag = CLAN_TAGS.COT_A;
       break;
-      
+
     case "AM":
     case "ALPHA":
     case "ALPHA_MAX":
@@ -71,7 +72,13 @@ function messageDecorder(message) {
       whichFunction = 1;
       tag = CLAN_TAGS.AM;
       break;
-      
+
+    case "420":
+    case "FOUR TWENTY":
+      whichFunction = 1;
+      tag = CLAN_TAGS.F20;
+      break;
+
     case "ALL":
       whichFunction = 2;
       tag = CLAN_TAGS;
