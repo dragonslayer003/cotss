@@ -117,8 +117,8 @@ client.on("message", (message) => {
                 " has been issued a new strike. Reason: If you wish to appeal, create a War Conflict or Appeals Ticket in <#780881554238865538>."
             );
           }
-          var msg = `${player.playerTAG} has ${player.strikeCount} strikes. \nReason for current strike: ${strikes}`;
-          message.channel.send("```" + msg + "\n\nReasons for strikes:\n\n" + player.strikes + "```");
+          var msg = `${player.playerTAG} has ${player.strikeCount} strikes. \n\nReason for current strike: ${strikes}`;
+          message.channel.send("```" + msg + "\nReasons for strikes:\n\n" + player.strikes + "```");
         }
       });
     });
