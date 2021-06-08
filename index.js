@@ -105,18 +105,20 @@ client.on("message", (message) => {
           player.strikeCount = player.strikeCount + parseFloat(strikeCount);
           player.strikes = player.strikes + strikes;
           player.save();
-
-          message.channel.send(
-            "<@" +
-              player.playerID +
-              ">" +
-              " has been issued a new strike. If you wish to appeal, create a War Conflict or Appeals Ticket in <#780881554238865538>."
-          );
-          var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
-          message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
           if (player.strikeCount >= 4) {
-            message.channel.send("<@671577259962007573> " + `<@${player.playerID}> has more than 4 strikes.`);
+            message.channel.send(
+              `<@${player.playerID}> You've accumulated 4 Strikes in the CoTSS. Go to <#780881554238865538>, open up a ticket and we will discuss you situation. You have 12hrs to open up a ticket for discussion. Failure to comply will result in a kick from Clan and ban from any other Clan in the Family for a week or until you come to discuss the scenario. After one week with no reply, kick from the Server. <@&671577259962007573>`
+            );
+          } else {
+            message.channel.send(
+              "<@" +
+                player.playerID +
+                ">" +
+                " has been issued a new strike. If you wish to appeal, create a War Conflict or Appeals Ticket in <#780881554238865538>."
+            );
+            var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
           }
+          message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
         }
       });
     });
