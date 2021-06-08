@@ -114,11 +114,11 @@ client.on("message", (message) => {
               "<@" +
                 player.playerID +
                 ">" +
-                " You've been issued a new strike. If you wish to appeal, create a War Conflict or Appeals Ticket in <#780881554238865538>."
+                " You've been issued a new strike in the CoTSS. If you wish to appeal and discuss, create an Appeal Ticket in <#780881554238865538>."
             );
           }
           var msg = `${player.playerTAG} has ${player.strikeCount} strikes. \n\nReason for current strike: ${strikes}`;
-          message.channel.send("```" + msg + "\nReasons for strikes:\n\n" + player.strikes + "```");
+          message.channel.send("```" + msg + "\nAll of player strikes:\n\n" + player.strikes + "```");
         }
       });
     });
