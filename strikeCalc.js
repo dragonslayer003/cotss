@@ -4,12 +4,12 @@ function strikeCalc(strike) {
 
   switch (strike) {
     case "1":
-      strikes = "Left the clan without approval\n";
+      strikes = "Left the clan without approval.\n";
       strikeCount = 0.5;
       break;
 
     case "2":
-      strikes = "Failed to respond to leadership\n";
+      strikes = "Failed to respond to leadership.\n";
       strikeCount = 0.5;
       break;
 
