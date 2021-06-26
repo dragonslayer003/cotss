@@ -63,6 +63,16 @@ function strikeCalc(strike) {
       strikeCount = 4;
       break;
 
+    case "13":
+      strikes = "Failed to swap War Base when advised by Leadership of FWA.\n";
+      strikeCount = 1;
+      break;
+
+    case "14":
+      strikes = "Failed to attack your FWA Mirror without properly alerting Leadership.\n";
+      strikeCount = 1;
+      break;
+
     default:
       strikes = "";
       strikeCount = 0;
