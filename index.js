@@ -85,7 +85,7 @@ client.on("message", (message) => {
     }
   } else if (leftOverMessage.startsWith("ADD")) {
     var strike = leftOverMessage.split(" ").filter((arg) => parseFloat(arg))[0];
-    if (!strike || strike < 1 || strike > 12) {
+    if (!strike || strike < 1 || strike > 14) {
       return message.channel.send("Invalid strike information! Refer strike help for more information.");
     }
 
@@ -104,6 +104,49 @@ client.on("message", (message) => {
         } else {
           player.strikeCount = player.strikeCount + parseFloat(strikeCount);
           player.strikes = player.strikes + strikes;
+          player.save();
+          if (player.strikeCount >= 4) {
+            message.channel.send(
+              `<@${player.playerID}> You've accumulated ${player.strikeCount} strikes in the CoTSS. Go to <#780881554238865538>, open up a ticket and we will discuss your situation. You have 12hrs to open up a ticket for discussion. Failure to comply will result in a kick from Clan and ban from any other Clan in the Family for a week. After one week with no reply, kick from the Server. <@&671577259962007573>`
+            );
+          } else {
+            message.channel.send(
+              "<@" +
+                player.playerID +
+                ">" +
+                " You've been issued a new strike in the CoTSS. If you wish to appeal and discuss, create an Appeal Ticket in <#780881554238865538>."
+            );
+          }
+          var msg = `${player.playerTAG} has ${player.strikeCount} strikes. \n\nReason for current strike: ${strikes}`;
+          message.channel.send("```" + msg + "\nAll of player strikes:\n\n" + player.strikes + "```");
+        }
+      });
+    });
+  } else if (leftOverMessage.startsWith("REMOVE")) {
+    var strike = leftOverMessage.split(" ").filter((arg) => parseFloat(arg))[0];
+    if (!strike || strike < 1 || strike > 14) {
+      return message.channel.send("Invalid strike information! Refer strike help for more information.");
+    }
+
+    var { strikes, strikeCount } = strikeCalc(strike);
+    var usersTAG = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+    if (usersTAG.size < 1) {
+      return message.channel.send("Please enter atleaset one user with player TAG.");
+    }
+    usersTAG.map((userTAG) => {
+      Player.findOne({ playerTAG: userTAG }, (err, player) => {
+        if (err) {
+          message.channel.send("Error: ", err);
+        }
+        if (!player) {
+          message.channel.send("Error: Player not found!");
+        } else {
+          if (!player.strikes.includes(strikes)) {
+            message.channel.send("Invalid operation! Player does not have that strike!");
+            return;
+          }
+          player.strikeCount = player.strikeCount - parseFloat(strikeCount);
+          player.strikes = player.strikes.replace(strikes, "");
           player.save();
           if (player.strikeCount >= 4) {
             message.channel.send(
