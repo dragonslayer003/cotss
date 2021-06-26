@@ -35,10 +35,10 @@ client.on("message", (message) => {
 
   if (leftOverMessage.startsWith("HELP")) {
     message.channel.send(
-      "```:{CLAN_NAME} -> show clan strike information.\n:all -> show all clan strike information.\n:show {@USERs} -> show strike information for a user.\n:add {#PLAYER_TAGS} {strike Number} -> add strikes for a Player.\n:link {@USER} {#PLAYER_TAG} -> link a new user with their clan ID.\n:delete {@USER} -> delete all links of a player.\n:delete {#PLAYER_TAGS} -> delete provided player TAGs.\n```"
+      "```:{CLAN_NAME} -> show clan strike information.\n:all -> show all clan strike information.\n:show {@USERs} -> show strike information for a user.\n:add {#PLAYER_TAGS} {strike Number} -> add strikes for a Player.\n:remove {#PLAYER_TAGS} {strike Number} -> remove a strike for the Player.\n:link {@USER} {#PLAYER_TAG} -> link a new user with their clan ID.\n:delete {@USER} -> delete all links of a player.\n:delete {#PLAYER_TAGS} -> delete provided player TAGs.\n```"
     );
     message.channel.send(
-      "```Strike Number: \n\n 1 -> Left the clan (0.5 strike)\n 2 -> Failed to respond (0.5 strike)\n 3 -> Wrong attack (0.5 strike)\n 4 -> Missed war attack (1 strike)\n 5 -> Missed CWL Attack (1 strike)\n 6 -> Failed CG points(1 strike)\n 7 -> Heros down in war (1 strike)\n 8 -> Failed war plan (1 strike)\n 9 -> War no show (2 strikes)\n10 -> Changed war plan (3 strikes)\n11 -> Toxic (4 strikes)\n12 -> Camping (4 strikes)\n```"
+      "```Strike Number: \n\n 1 -> Left the clan without approval. (0.5 strike)\n 2 -> Failed to respond to leadership. (0.5 strike)\n 3 -> Attacked wrong base in war. (0.5 strike)\n 4 -> Missed a war attack without reason. (1 strike)\n 5 -> Missed atatck in CWL without reason. (1 strike)\n 6 -> Failed to meet Clan Games points. (1 strike)\n 7 -> Opting in for war while hero(s) down. (1 strike)\n 8 -> Did not follow the war plan. (1 strike)\n 9 -> Did not use either of the attacks in the war. (2 strikes)\n10 -> Changed the war plan made by war general. (3 strikes)\n11 -> Toxic towards other players. (4 strikes)\n12 -> Camping accounts and/or going AFK. (4 strikes)\n13 -> Failed to swap War Base when advised by Leadership of FWA. (1 strike)\n14 -> Failed to attack your FWA Mirror without properly alerting Leadership. (1 strike)\n```"
     );
   } else if (leftOverMessage.startsWith("LINK")) {
     var playerTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
