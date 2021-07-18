@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import { Client } from "discord.js";
 import { byClanTag } from "./clashAPI.js";
 import messageDecorder from "./messageDecoder.js";
@@ -43,7 +46,7 @@ client.on("message", (message) => {
   } else if (leftOverMessage.startsWith("LINK")) {
     var playerTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
     var users = message.mentions.users;
-    if (users.length != 1) {
+    if (users.size != 1) {
       return message.channel.send("Please enter only one user.");
     }
     if (playerTAGs.length < 1) {
@@ -63,11 +66,11 @@ client.on("message", (message) => {
     var playerTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
     var users = message.mentions.users;
 
-    if (users.length != 1 && playerTAGs.length < 1) {
+    if (users.size != 1 && playerTAGs.length < 1) {
       return message.channel.send("Please enter either an user or player TAGs");
     }
 
-    if (users.length == 1) {
+    if (users.size == 1) {
       var userID = users.toJSON()[0].id;
       Player.deleteMany({ playerID: userID }, (err) => {
         if (err) {
@@ -169,49 +172,51 @@ client.on("message", (message) => {
     var users = message.mentions.users;
     var usersTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
 
-    if (users.length < 1 && usersTAGs.length < 1) {
+    if (users.size < 1 && usersTAGs.length < 1) {
       return message.channel.send("Please enter atleaset one user.");
     }
 
-    users.length > 0 && users.map((user) => {
-      Player.find({ playerID: user.id }, (err, players) => {
-        if (err) {
-          message.channel.send("Error: ", err);
-        }
-        if (players.length == 0) {
-          message.channel.send("Error: Player not found!");
-        } else {
-          for (var player of players) {
-            if (player.strikeCount === 0) {
-              message.channel.send("```" + player.playerTAG + " has no strike```");
-            } else {
-              var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
-              message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
+    users.size > 0 &&
+      users.map((user) => {
+        Player.find({ playerID: user.id }, (err, players) => {
+          if (err) {
+            message.channel.send("Error: ", err);
+          }
+          if (players.length == 0) {
+            message.channel.send("Error: Player not found!");
+          } else {
+            for (var player of players) {
+              if (player.strikeCount === 0) {
+                message.channel.send("```" + player.playerTAG + " has no strike```");
+              } else {
+                var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
+                message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
+              }
             }
           }
-        }
+        });
       });
-    });
 
-    usersTAGs.length > 0 && usersTAGs.map((userTAG) => {
-      Player.find({ playerTAG: userTAG }, (err, players) => {
-        if (err) {
-          message.channel.send("Error: ", err);
-        }
-        if (players.length == 0) {
-          message.channel.send("Error: Player not found!");
-        } else {
-          for (var player of players) {
-            if (player.strikeCount === 0) {
-              message.channel.send("```" + player.playerTAG + " has no strike```");
-            } else {
-              var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
-              message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
+    usersTAGs.length > 0 &&
+      usersTAGs.map((userTAG) => {
+        Player.find({ playerTAG: userTAG }, (err, players) => {
+          if (err) {
+            message.channel.send("Error: ", err);
+          }
+          if (players.length == 0) {
+            message.channel.send("Error: Player not found!");
+          } else {
+            for (var player of players) {
+              if (player.strikeCount === 0) {
+                message.channel.send("```" + player.playerTAG + " has no strike```");
+              } else {
+                var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
+                message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
+              }
             }
           }
-        }
+        });
       });
-    });
   } else if (leftOverMessage.startsWith("RESET")) {
     if (message.author.id !== "644005027052126208") {
       return message.channel.send("Only family leader has the permission to use this command!");

@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import axios from "axios";
 
 const { data: IP } = await axios.get("https://api.ipify.org/");
