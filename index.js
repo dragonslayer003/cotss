@@ -173,7 +173,7 @@ client.on("message", (message) => {
       return message.channel.send("Please enter atleaset one user.");
     }
 
-    users.map((user) => {
+    users.size > 0 && users.map((user) => {
       Player.find({ playerID: user.id }, (err, players) => {
         if (err) {
           message.channel.send("Error: ", err);
@@ -193,8 +193,8 @@ client.on("message", (message) => {
       });
     });
 
-    usersTAGs.map((userTAG) => {
-      Player.findOne({ playerTAG: userTAG }, (err, players) => {
+    usersTAGs.size > 0 && usersTAGs.map((userTAG) => {
+      Player.find({ playerTAG: userTAG }, (err, players) => {
         if (err) {
           message.channel.send("Error: ", err);
         }
