@@ -156,15 +156,14 @@ client.on("message", (message) => {
               `<@${player.playerID}> You've accumulated ${player.strikeCount} strikes in the CoTSS. Go to <#780881554238865538>, open up a ticket and we will discuss your situation. You have 12hrs to open up a ticket for discussion. Failure to comply will result in a kick from Clan and ban from any other Clan in the Family for a week. After one week with no reply, kick from the Server. <@&671577259962007573>`
             );
           } else {
-            message.channel.send(
-              "<@" +
-                player.playerID +
-                ">" +
-                " A strike has been removed from your account."
-            );
+            message.channel.send("<@" + player.playerID + ">" + " A strike has been removed from your account.");
           }
           var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
-          message.channel.send("```" + msg + "\nAll of player strikes:\n\n" + player.strikes + "```");
+          if (player.strikeCount > 0) {
+            message.channel.send("```" + msg + "\n\nAll of player strikes:\n\n" + player.strikes + "```");
+          } else {
+            message.channel.send("```" + msg + "```");
+          }
         }
       });
     });
