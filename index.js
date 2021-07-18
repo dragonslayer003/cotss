@@ -160,10 +160,10 @@ client.on("message", (message) => {
               "<@" +
                 player.playerID +
                 ">" +
-                " You've been issued a new strike in the CoTSS. If you wish to appeal and discuss, create an Appeal Ticket in <#780881554238865538>."
+                " A strike has been removed from your account."
             );
           }
-          var msg = `${player.playerTAG} has ${player.strikeCount} strikes. \n\nReason for current strike: ${strikes}`;
+          var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
           message.channel.send("```" + msg + "\nAll of player strikes:\n\n" + player.strikes + "```");
         }
       });
