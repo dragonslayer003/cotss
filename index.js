@@ -194,11 +194,11 @@ client.on("message", (message) => {
     });
 
     usersTAGs.map((userTAG) => {
-      Player.findOne({ playerTAG: userTAG }, (err, player) => {
+      Player.findOne({ playerTAG: userTAG }, (err, players) => {
         if (err) {
           message.channel.send("Error: ", err);
         }
-        if (!player) {
+        if (players.length == 0) {
           message.channel.send("Error: Player not found!");
         } else {
           for (var player of players) {
