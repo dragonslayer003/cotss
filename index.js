@@ -35,7 +35,7 @@ client.on("message", (message) => {
 
   if (leftOverMessage.startsWith("HELP")) {
     message.channel.send(
-      "```:{CLAN_NAME} -> show clan strike information.\n:all -> show all clan strike information.\n:show {@USERs} -> show strike information for a user.\n:add {#PLAYER_TAGS} {strike Number} -> add strikes for a Player.\n:remove {#PLAYER_TAGS} {strike Number} -> remove a strike for the Player.\n:link {@USER} {#PLAYER_TAG} -> link a new user with their clan ID.\n:delete {@USER} -> delete all links of a player.\n:delete {#PLAYER_TAGS} -> delete provided player TAGs.\n```"
+      "```:{CLAN_NAME} -> show clan strike information.\n:all -> show all clan strike information.\n:show {@USERs}/{#PLAYER_TAG(s)} -> show strike information for a user.\n:add {#PLAYER_TAG(s)} {strike Number} -> add strikes for a Player.\n:remove {#PLAYER_TAG(s)} {strike Number} -> remove a strike for the Player.\n:link {@USER} {#PLAYER_TAG} -> link a new user with their clan ID.\n:delete {@USER} -> delete all links of a player.\n:delete {#PLAYER_TAG(s)} -> delete provided player TAGs.\n```"
     );
     message.channel.send(
       "```Strike Number: \n\n 1 -> Left the clan without approval. (0.5 strike)\n 2 -> Failed to respond to leadership. (0.5 strike)\n 3 -> Attacked wrong base in war. (0.5 strike)\n 4 -> Missed a war attack without reason. (1 strike)\n 5 -> Missed atatck in CWL without reason. (1 strike)\n 6 -> Failed to meet Clan Games points. (1 strike)\n 7 -> Opting in for war while hero(s) down. (1 strike)\n 8 -> Did not follow the war plan. (1 strike)\n 9 -> Did not use either of the attacks in the war. (2 strikes)\n10 -> Changed the war plan made by war general. (3 strikes)\n11 -> Toxic towards other players. (4 strikes)\n12 -> Camping accounts and/or going AFK. (4 strikes)\n13 -> Failed to swap War Base when advised by Leadership of FWA. (1 strike)\n14 -> Failed to attack your FWA Mirror without properly alerting Leadership. (1 strike)\n```"
@@ -167,7 +167,9 @@ client.on("message", (message) => {
     });
   } else if (leftOverMessage.startsWith("SHOW")) {
     var users = message.mentions.users;
-    if (users.size < 1) {
+    var usersTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+
+    if (users.size < 1 && usersTAGs.size < 1) {
       return message.channel.send("Please enter atleaset one user.");
     }
 
@@ -177,6 +179,26 @@ client.on("message", (message) => {
           message.channel.send("Error: ", err);
         }
         if (players.length == 0) {
+          message.channel.send("Error: Player not found!");
+        } else {
+          for (var player of players) {
+            if (player.strikeCount === 0) {
+              message.channel.send("```" + player.playerTAG + " has no strike```");
+            } else {
+              var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
+              message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
+            }
+          }
+        }
+      });
+    });
+
+    usersTAGs.map((userTAG) => {
+      Player.findOne({ playerTAG: userTAG }, (err, player) => {
+        if (err) {
+          message.channel.send("Error: ", err);
+        }
+        if (!player) {
           message.channel.send("Error: Player not found!");
         } else {
           for (var player of players) {
