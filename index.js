@@ -43,7 +43,7 @@ client.on("message", (message) => {
   } else if (leftOverMessage.startsWith("LINK")) {
     var playerTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
     var users = message.mentions.users;
-    if (users.size != 1) {
+    if (users.length != 1) {
       return message.channel.send("Please enter only one user.");
     }
     if (playerTAGs.length < 1) {
@@ -63,11 +63,11 @@ client.on("message", (message) => {
     var playerTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
     var users = message.mentions.users;
 
-    if (users.size != 1 && playerTAGs.length < 1) {
+    if (users.length != 1 && playerTAGs.length < 1) {
       return message.channel.send("Please enter either an user or player TAGs");
     }
 
-    if (users.size == 1) {
+    if (users.length == 1) {
       var userID = users.toJSON()[0].id;
       Player.deleteMany({ playerID: userID }, (err) => {
         if (err) {
@@ -91,7 +91,7 @@ client.on("message", (message) => {
 
     var { strikes, strikeCount } = strikeCalc(strike);
     var usersTAG = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
-    if (usersTAG.size < 1) {
+    if (usersTAG.length < 1) {
       return message.channel.send("Please enter atleaset one user with player TAG.");
     }
     usersTAG.map((userTAG) => {
@@ -130,7 +130,7 @@ client.on("message", (message) => {
 
     var { strikes, strikeCount } = strikeCalc(strike);
     var usersTAG = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
-    if (usersTAG.size < 1) {
+    if (usersTAG.length < 1) {
       return message.channel.send("Please enter atleaset one user with player TAG.");
     }
     usersTAG.map((userTAG) => {
@@ -169,11 +169,11 @@ client.on("message", (message) => {
     var users = message.mentions.users;
     var usersTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
 
-    if (users.size < 1 && usersTAGs.size < 1) {
+    if (users.length < 1 && usersTAGs.length < 1) {
       return message.channel.send("Please enter atleaset one user.");
     }
 
-    users.size > 0 && users.map((user) => {
+    users.length > 0 && users.map((user) => {
       Player.find({ playerID: user.id }, (err, players) => {
         if (err) {
           message.channel.send("Error: ", err);
@@ -193,7 +193,7 @@ client.on("message", (message) => {
       });
     });
 
-    usersTAGs.size > 0 && usersTAGs.map((userTAG) => {
+    usersTAGs.length > 0 && usersTAGs.map((userTAG) => {
       Player.find({ playerTAG: userTAG }, (err, players) => {
         if (err) {
           message.channel.send("Error: ", err);
