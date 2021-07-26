@@ -14,20 +14,11 @@ function byClanTag(tag, callback) {
     .then(async (response) => {
       var reply = "";
       for (var member of response.memberList) {
-        await Player.findOne({ playerTAG: member.tag }, (err, player) => {
-          if (err) {
-            callback("Error: ", err);
-          }
-          if (!player) {
-            reply = reply + member.name + " -- " + member.tag + " -- " + "Not linked\n";
-          } else {
-            if (player.strikeCount === 0) {
-              reply = reply + member.name + " -- " + member.tag + " -- No Strikes.\n";
-            } else {
-              reply = reply + member.name + " -- " + member.tag + " -- " + player.strikeCount + " Strikes.\n";
-            }
-          }
-        });
+        await findPlayer(member)
+          .then((response) => {
+            reply = reply + response;
+          })
+          .catch((err) => callback(err));
       }
       callback("```" + response.name + " :   \n\n" + reply + "```");
     })
@@ -35,6 +26,25 @@ function byClanTag(tag, callback) {
       console.log(error);
       callback("Error: Something went wrong while getting data!");
     });
+}
+
+async function findPlayer(member) {
+  return new Promise((resolve, reject) => {
+    Player.findOne({ playerTAG: member.tag }, (err, player) => {
+      if (err) {
+        reject("Error: ", err);
+      }
+      if (!player) {
+        resolve(member.name + " -- " + member.tag + " -- " + "Not linked.\n");
+      } else {
+        if (player.strikeCount === 0) {
+          resolve(member.name + " -- " + member.tag + " -- No Strikes.\n");
+        } else {
+          resolve(member.name + " -- " + member.tag + " -- " + player.strikeCount + " Strikes.\n");
+        }
+      }
+    });
+  });
 }
 
 export { byClanTag };
