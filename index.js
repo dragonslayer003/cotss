@@ -18,6 +18,7 @@ client.on("message", (message) => {
   if (!message.content.startsWith(process.env.prefix) || message.author.bot) return;
 
   if (
+    message.member.user.id !== "284541887053037569" &&
     !message.member.roles.cache.some(
       (role) =>
         role.name === "⚡️Leadership⚡️" ||
