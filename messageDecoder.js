@@ -8,6 +8,10 @@ var CLAN_TAGS = {
   COT_A: "#2Y2QC082R",
   AM: "#YGLC2R9R",
   F20: "#8CV0GPPR",
+  TH: "#2RRCJCL0",
+  MW: "#8VQP9VQ9",
+  FUN: "#2Q9RLRCG ",
+  CWL_FUN: "#28Y2LU2LL",
 };
 
 function messageDecorder(message) {
@@ -22,8 +26,6 @@ function messageDecorder(message) {
       break;
 
     case "COTW":
-    case "COT W":
-    case "COT_W":
     case "COT WILDLINGS":
     case "WILDLINGS":
       tag = CLAN_TAGS.COT_W;
@@ -58,7 +60,7 @@ function messageDecorder(message) {
       break;
 
     case "COTA":
-    case "COT_A":
+    case "COT A":
     case "ASSASINS":
     case "COT ASSASSINS":
       whichFunction = 1;
@@ -67,7 +69,6 @@ function messageDecorder(message) {
 
     case "AM":
     case "ALPHA":
-    case "ALPHA_MAX":
     case "ALPHA MAX":
       whichFunction = 1;
       tag = CLAN_TAGS.AM;
@@ -77,6 +78,30 @@ function messageDecorder(message) {
     case "FOUR TWENTY":
       whichFunction = 1;
       tag = CLAN_TAGS.F20;
+      break;
+
+    case "TH":
+    case "THE HORDE":
+      tag = CLAN_TAGS.TH;
+      whichFunction = 1;
+      break;
+
+    case "MW":
+    case "MORNING WOODS":
+      tag = CLAN_TAGS.MW;
+      whichFunction = 1;
+      break;
+
+    case "FUN":
+    case "FUNNIES":
+      tag = CLAN_TAGS.FUN;
+      whichFunction = 1;
+      break;
+
+    case "CWL FUNNIES":
+    case "CWL FUN":
+      tag = CLAN_TAGS.CWL_FUN;
+      whichFunction = 1;
       break;
 
     case "ALL":
