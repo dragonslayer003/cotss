@@ -19,17 +19,7 @@ client.on("message", (message) => {
 
   if (
     message.member.user.id !== "284541887053037569" &&
-    !message.member.roles.cache.some(
-      (role) =>
-        role.name === "⚡️Leadership⚡️" ||
-        role.name === "🐺CoT Wildling War General🐺" ||
-        role.name === "⚔️CoT War General⚔️" ||
-        role.name === "😎SC War General😎" ||
-        role.name === "🌼Dandelion War General🌼" ||
-        role.name === "🛠Black id War General🛠" ||
-        role.name === "🌊 Noah's Ark War General🌊" ||
-        role.name === "💥AlphaMax War General💥"
-    )
+    !message.member.roles.cache.some((role) => role.name === "❌Strike Force❌")
   ) {
     message.channel.send("You do not have the permission to use this command!");
     return;
