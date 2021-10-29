@@ -2,9 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import axios from "axios";
 
-const {
-  data: { query: IP },
-} = await axios.get("http://ip-api.com/json/");
+const { data: IP } = await axios.get("https://api.ipify.org/");
 
 async function createSession(axiosInstance) {
   const login = await axiosInstance.post("/login", {

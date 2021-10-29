@@ -10,7 +10,7 @@ var CLAN_TAGS = {
   F20: "#8CV0GPPR",
   TH: "#2RRCJCL0",
   MW: "#8VQP9VQ9",
-  FUN: "#2Q9RLRCG ",
+  FUN: "#2Q9RLRCG",
   CWL_FUN: "#28Y2LU2LL",
 };
 
