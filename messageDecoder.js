@@ -14,7 +14,7 @@ var CLAN_TAGS = {
   CWL_FUN: "#28Y2LU2LL",
 };
 
-function messageDecorder(message) {
+function messageDecoder(message) {
   var tag = "",
     whichFunction = 0;
 
@@ -110,11 +110,11 @@ function messageDecorder(message) {
       break;
 
     default:
-      tag = "Invalid command! Refer :strike help for information";
+      tag = "Invalid command! Refer :help for information";
       break;
   }
 
   return { tag, whichFunction };
 }
 
-export default messageDecorder;
+export default messageDecoder;
