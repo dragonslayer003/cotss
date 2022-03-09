@@ -12,6 +12,11 @@ var CLAN_TAGS = {
   MW: "#8VQP9VQ9",
   FUN: "#2Q9RLRCG",
   CWL_FUN: "#28Y2LU2LL",
+  GIL: "#YUGU9Y0C",
+  KMA: "#8GR80JJL",
+  KIL: "#8ULGV2QQ",
+  WWW: "#YJPRG0YG",
+  K33: "#QJR9C8J0",
 };
 
 function messageDecoder(message) {
@@ -101,6 +106,36 @@ function messageDecoder(message) {
     case "CWL FUNNIES":
     case "CWL FUN":
       tag = CLAN_TAGS.CWL_FUN;
+      whichFunction = 1;
+      break;
+	  
+    case "GIL":
+    case "GILMAZ":
+      tag = CLAN_TAGS.GIL;
+      whichFunction = 1;
+      break;
+
+    case "KMA":
+    case "KMA Elite":
+      tag = CLAN_TAGS.KMA;
+      whichFunction = 1;
+      break;
+
+    case "KIL":
+    case "KILLER INC":
+      tag = CLAN_TAGS.KIL;
+      whichFunction = 1;
+      break;
+
+    case "WWW":
+    case "WWWARRIORS":
+      tag = CLAN_TAGS.WWW;
+      whichFunction = 1;
+      break;
+
+    case "K33":
+    case "K33P_CALM2k16":
+      tag = CLAN_TAGS.K33;
       whichFunction = 1;
       break;
 
