@@ -24,7 +24,7 @@ function strikeCalc(strike) {
       break;
 
     case "5":
-      strikes = "Missed atatck in CWL without reason.\n";
+      strikes = "Missed attack in CWL without reason.\n";
       strikeCount = 1;
       break;
 
