@@ -19,7 +19,7 @@ client.on("message", (message) => {
 
   if (
     message.member.user.id !== "284541887053037569" &&
-    !message.member.roles.cache.some((role) => role.name === "❌Strike Force❌")
+    !message.member.roles.cache.some((role) => role.name === "❌«——•⦅ Strike Force ⦆•——»❌")
   ) {
     message.channel.send("You do not have the permission to use this command!");
     return;
