@@ -20,7 +20,7 @@ client.on("message", (message) => {
 
   if (
     message.member.user.id !== "284541887053037569" &&
-    !message.member.roles.cache.some((role) => role.id === "892401156263915520")
+    !message.member.roles.cache.some((role) => role.id === "985932892779741224")
   ) {
     message.channel.send("You do not have the permission to use this command!");
     return;
