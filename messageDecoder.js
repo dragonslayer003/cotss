@@ -17,6 +17,7 @@ var CLAN_TAGS = {
   KIL: "#8ULGV2QQ",
   WWW: "#YJPRG0YG",
   K33: "#QJR9C8J0",
+  WAB: "#YQPYJCQ2",
 };
 
 function messageDecoder(message) {
@@ -108,7 +109,7 @@ function messageDecoder(message) {
       tag = CLAN_TAGS.CWL_FUN;
       whichFunction = 1;
       break;
-	  
+
     case "GIL":
     case "GILMAZ":
       tag = CLAN_TAGS.GIL;
@@ -136,6 +137,12 @@ function messageDecoder(message) {
     case "K33":
     case "K33P_CALM2k16":
       tag = CLAN_TAGS.K33;
+      whichFunction = 1;
+      break;
+
+    case "WAB":
+    case "We Are Brothers":
+      tag = CLAN_TAGS.WAB;
       whichFunction = 1;
       break;
 

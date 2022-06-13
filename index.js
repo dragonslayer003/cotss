@@ -15,7 +15,8 @@ client.once("ready", () => {
 
 client.on("message", (message) => {
   message.content = message.content.toUpperCase();
-  if (!message.content.startsWith(process.env.prefix) || message.author.bot) return;
+  if (!message.content.startsWith(process.env.prefix) || message.author.bot)
+    return;
 
   if (
     message.member.user.id !== "284541887053037569" &&
@@ -35,10 +36,12 @@ client.on("message", (message) => {
       "```Strike Number: \n\n 1 -> Left the clan without approval. (0.5 strike)\n 2 -> Failed to respond to leadership. (0.5 strike)\n 3 -> Attacked wrong base in war. (0.5 strike)\n 4 -> Missed a war attack without reason. (1 strike)\n 5 -> Missed atatck in CWL without reason. (1 strike)\n 6 -> Failed to meet Clan Games points. (1 strike)\n 7 -> Opting in for war while hero(s) down. (1 strike)\n 8 -> Did not follow the war plan. (1 strike)\n 9 -> Did not use either of the attacks in the war. (2 strikes)\n10 -> Changed the war plan made by war general. (3 strikes)\n11 -> Toxic towards other players. (4 strikes)\n12 -> Camping accounts and/or going AFK. (4 strikes)\n13 -> Failed to swap War Base when advised by Leadership of FWA. (1 strike)\n14 -> Failed to attack your FWA Mirror without properly alerting Leadership. (1 strike)\n```"
     );
     message.channel.send(
-      "```Clan Names / Short Forms:\n\n=> Clash of Thrones: COT / Clash of thrones\n=> COT Wildlings: COTW / COT Wildlings / Wildlings\n=> Spring Centenni: SC / Spring / Spring Centenni\n=> Black ID: BLK / Black / Black ID\n=> Noahs Arc: NA / Noah / Noahs Arc\n=> Dandelion: DAND / Dandelion\n=> COT Assassins: COTA / COT A / Assassins / COT Assassins\n=> Alpha Max: Alpha / Alpha Max\n=> Four Twenty: 420 / Four Twenty\n=> The Horde: TH / The Horde\n=> Morning Woods: MW / Morning Woods\n=> Funnies: FUN / Funnies\n=> CWL Funnies: CWL FUN / CWL Funnies```"
+      "```Clan Names / Short Forms:\n\n=> Clash of Thrones: COT / Clash of thrones\n=> COT Wildlings: COTW / COT Wildlings / Wildlings\n=> Spring Centenni: SC / Spring / Spring Centenni\n=> Black ID: BLK / Black / Black ID\n=> Noahs Arc: NA / Noah / Noahs Arc\n=> Dandelion: DAND / Dandelion\n=> COT Assassins: COTA / COT A / Assassins / COT Assassins\n=> Alpha Max: Alpha / Alpha Max\n=> Four Twenty: 420 / Four Twenty\n=> The Horde: TH / The Horde\n=> Morning Woods: MW / Morning Woods\n=> Funnies: FUN / Funnies\n=> CWL Funnies: CWL FUN / CWL Funnies\n=> We are brothers: WAB / We are brothers```"
     );
   } else if (leftOverMessage.startsWith("LINK")) {
-    var playerTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+    var playerTAGs = leftOverMessage
+      .split(" ")
+      .filter((arg) => arg.startsWith("#"));
     var users = message.mentions.users;
     if (users.size != 1) {
       return message.channel.send("Please enter only one user.");
@@ -57,7 +60,9 @@ client.on("message", (message) => {
       });
     }
   } else if (leftOverMessage.startsWith("DELETE")) {
-    var playerTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+    var playerTAGs = leftOverMessage
+      .split(" ")
+      .filter((arg) => arg.startsWith("#"));
     var users = message.mentions.users;
 
     if (users.size != 1 && playerTAGs.length < 1) {
@@ -83,13 +88,19 @@ client.on("message", (message) => {
   } else if (leftOverMessage.startsWith("ADD")) {
     var strike = leftOverMessage.split(" ").filter((arg) => parseFloat(arg))[0];
     if (!strike || strike < 1 || strike > 14) {
-      return message.channel.send("Invalid strike information! Refer strike help for more information.");
+      return message.channel.send(
+        "Invalid strike information! Refer strike help for more information."
+      );
     }
 
     var { strikes, strikeCount } = strikeCalc(strike);
-    var usersTAG = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+    var usersTAG = leftOverMessage
+      .split(" ")
+      .filter((arg) => arg.startsWith("#"));
     if (usersTAG.length < 1) {
-      return message.channel.send("Please enter atleaset one user with player TAG.");
+      return message.channel.send(
+        "Please enter atleaset one user with player TAG."
+      );
     }
     usersTAG.map((userTAG) => {
       Player.findOne({ playerTAG: userTAG }, (err, player) => {
@@ -115,20 +126,32 @@ client.on("message", (message) => {
             );
           }
           var msg = `${player.playerTAG} has ${player.strikeCount} strikes. \n\nReason for current strike: ${strikes}`;
-          message.channel.send("```" + msg + "\nAll of player strikes:\n\n" + player.strikes + "```");
+          message.channel.send(
+            "```" +
+              msg +
+              "\nAll of player strikes:\n\n" +
+              player.strikes +
+              "```"
+          );
         }
       });
     });
   } else if (leftOverMessage.startsWith("REMOVE")) {
     var strike = leftOverMessage.split(" ").filter((arg) => parseFloat(arg))[0];
     if (!strike || strike < 1 || strike > 14) {
-      return message.channel.send("Invalid strike information! Refer strike help for more information.");
+      return message.channel.send(
+        "Invalid strike information! Refer strike help for more information."
+      );
     }
 
     var { strikes, strikeCount } = strikeCalc(strike);
-    var usersTAG = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+    var usersTAG = leftOverMessage
+      .split(" ")
+      .filter((arg) => arg.startsWith("#"));
     if (usersTAG.length < 1) {
-      return message.channel.send("Please enter atleaset one user with player TAG.");
+      return message.channel.send(
+        "Please enter atleaset one user with player TAG."
+      );
     }
     usersTAG.map((userTAG) => {
       Player.findOne({ playerTAG: userTAG }, (err, player) => {
@@ -139,7 +162,9 @@ client.on("message", (message) => {
           message.channel.send("Error: Player not found!");
         } else {
           if (!player.strikes.includes(strikes)) {
-            message.channel.send("Invalid operation! Player does not have that strike!");
+            message.channel.send(
+              "Invalid operation! Player does not have that strike!"
+            );
             return;
           }
           player.strikeCount = player.strikeCount - parseFloat(strikeCount);
@@ -150,11 +175,22 @@ client.on("message", (message) => {
               `<@${player.playerID}> You've accumulated ${player.strikeCount} strikes in the CoTSS. Go to <#780881554238865538>, open up a ticket and we will discuss your situation. You have 12hrs to open up a ticket for discussion. Failure to comply will result in a kick from Clan and ban from any other Clan in the Family for a week. After one week with no reply, kick from the Server. <@&671577259962007573>`
             );
           } else {
-            message.channel.send("<@" + player.playerID + ">" + " A strike has been removed from your account.");
+            message.channel.send(
+              "<@" +
+                player.playerID +
+                ">" +
+                " A strike has been removed from your account."
+            );
           }
           var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
           if (player.strikeCount > 0) {
-            message.channel.send("```" + msg + "\n\nAll of player strikes:\n\n" + player.strikes + "```");
+            message.channel.send(
+              "```" +
+                msg +
+                "\n\nAll of player strikes:\n\n" +
+                player.strikes +
+                "```"
+            );
           } else {
             message.channel.send("```" + msg + "```");
           }
@@ -163,7 +199,9 @@ client.on("message", (message) => {
     });
   } else if (leftOverMessage.startsWith("SHOW")) {
     var users = message.mentions.users;
-    var usersTAGs = leftOverMessage.split(" ").filter((arg) => arg.startsWith("#"));
+    var usersTAGs = leftOverMessage
+      .split(" ")
+      .filter((arg) => arg.startsWith("#"));
 
     if (users.size < 1 && usersTAGs.length < 1) {
       return message.channel.send("Please enter atleaset one user.");
@@ -180,10 +218,18 @@ client.on("message", (message) => {
           } else {
             for (var player of players) {
               if (player.strikeCount === 0) {
-                message.channel.send("```" + player.playerTAG + " has no strike```");
+                message.channel.send(
+                  "```" + player.playerTAG + " has no strike```"
+                );
               } else {
                 var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
-                message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
+                message.channel.send(
+                  "```" +
+                    msg +
+                    "\n\nReasons for strikes:\n" +
+                    player.strikes +
+                    "```"
+                );
               }
             }
           }
@@ -201,10 +247,18 @@ client.on("message", (message) => {
           } else {
             for (var player of players) {
               if (player.strikeCount === 0) {
-                message.channel.send("```" + player.playerTAG + " has no strike```");
+                message.channel.send(
+                  "```" + player.playerTAG + " has no strike```"
+                );
               } else {
                 var msg = `${player.playerTAG} has ${player.strikeCount} strikes.`;
-                message.channel.send("```" + msg + "\n\nReasons for strikes:\n" + player.strikes + "```");
+                message.channel.send(
+                  "```" +
+                    msg +
+                    "\n\nReasons for strikes:\n" +
+                    player.strikes +
+                    "```"
+                );
               }
             }
           }
@@ -212,10 +266,14 @@ client.on("message", (message) => {
       });
   } else if (leftOverMessage.startsWith("RESET")) {
     if (message.author.id !== "644005027052126208") {
-      return message.channel.send("Only family leader has the permission to use this command!");
+      return message.channel.send(
+        "Only family leader has the permission to use this command!"
+      );
     }
 
-    const filter = (m) => m.content.includes("CONFIRM RESET") && m.author.id === "644005027052126208";
+    const filter = (m) =>
+      m.content.includes("CONFIRM RESET") &&
+      m.author.id === "644005027052126208";
     const collector = message.channel.createMessageCollector(filter, {
       time: 25000,
     });
